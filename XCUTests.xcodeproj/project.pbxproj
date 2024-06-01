@@ -14,6 +14,7 @@
 		6B6871FE2C0BA5F3003F096F /* XCUTestsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6871FD2C0BA5F3003F096F /* XCUTestsTests.swift */; };
 		6B6872082C0BA5F3003F096F /* XCUTestsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6872072C0BA5F3003F096F /* XCUTestsUITests.swift */; };
 		6B68720A2C0BA5F3003F096F /* XCUTestsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6872092C0BA5F3003F096F /* XCUTestsUITestsLaunchTests.swift */; };
+		6B6872172C0BA6A1003F096F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 6B6872162C0BA6A1003F096F /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		6B6872032C0BA5F3003F096F /* XCUTestsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XCUTestsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B6872072C0BA5F3003F096F /* XCUTestsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCUTestsUITests.swift; sourceTree = "<group>"; };
 		6B6872092C0BA5F3003F096F /* XCUTestsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCUTestsUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		6B6872162C0BA6A1003F096F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 		6B6871E02C0BA5F2003F096F = {
 			isa = PBXGroup;
 			children = (
+				6B6872162C0BA6A1003F096F /* README.md */,
 				6B6871EB2C0BA5F2003F096F /* XCUTests */,
 				6B6871FC2C0BA5F3003F096F /* XCUTestsTests */,
 				6B6872062C0BA5F3003F096F /* XCUTestsUITests */,
@@ -231,6 +234,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B6872172C0BA6A1003F096F /* README.md in Resources */,
 				6B6871F42C0BA5F3003F096F /* Preview Assets.xcassets in Resources */,
 				6B6871F12C0BA5F3003F096F /* Assets.xcassets in Resources */,
 			);
