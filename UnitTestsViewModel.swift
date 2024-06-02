@@ -15,7 +15,7 @@ protocol NewDataServiceProtocol {
     
 }
 
-class MockNewDataService: NewDataServiceProtocol {
+class NewMockDataService: NewDataServiceProtocol {
     
     let items: [String]
     
@@ -49,9 +49,11 @@ class UnitTestsViewModel: ObservableObject {
     @Published var isPremium: Bool
     @Published var dataArray: [String] = []
     @Published var selectedItem: String? = nil
+    let dataService: NewDataServiceProtocol
     
-    init(isPremium: Bool) {
+    init(isPremium: Bool, dataService: NewDataServiceProtocol = NewMockDataService(items: nil)) {
         self.isPremium = isPremium
+        self.dataService = dataService
     }
     
     func addItem(item: String) {
