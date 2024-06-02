@@ -41,6 +41,13 @@ final class UnitTestsViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.isPremium, userIsPremium)
     }
     
-    
+    func test_isPremium_shouldBeInjectedValue_stress() {
+        for _ in 0..<10 {
+            let userIsPremium: Bool = Bool.random()
+            let viewModel = UnitTestsViewModel(isPremium: userIsPremium)
+            XCTAssertEqual(viewModel.isPremium, userIsPremium)
+        }
+    }
 
+    
 }
