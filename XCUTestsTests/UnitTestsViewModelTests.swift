@@ -115,12 +115,69 @@ final class UnitTestsViewModelTests: XCTestCase {
         let randomItem = sut.dataArray.randomElement() ?? ""
         sut.selectItem(item: randomItem)
         
+        XCTAssertFalse(randomItem.isEmpty)
         XCTAssertNotNil(sut.selectedItem)
         XCTAssertEqual(sut.selectedItem, randomItem)
     }
     
-    func test_saveItem_whenEmptyString_shouldThrowError() {
+    func test_saveItem_whenEmptyString_shouldThrowNoDataError() {
+        let loopCount = Int.random(in: 1..<100)
         
+        for _ in 0..<loopCount {
+            let newItem = UUID().uuidString
+            sut.addItem(item: newItem)
+        }
+        
+        XCTAssertThrowsError(try sut.saveItem(item: ""), "Should throw not data error.") { error in
+            let returnedError = error as? UnitTestsViewModel.DataError
+            XCTAssertEqual(returnedError, UnitTestsViewModel.DataError.noData)
+        }
+    }
+    
+    func test_saveItem_shouldThrowItemNotFoundError() {
+        let loopCount = Int.random(in: 1..<100)
+        
+        for _ in 0..<loopCount {
+            let newItem = UUID().uuidString
+            sut.addItem(item: newItem)
+        }
+        
+        do {
+            try sut.saveItem(item: UUID().uuidString)
+        } catch let error {
+            let returnedError = error as? UnitTestsViewModel.DataError
+            XCTAssertEqual(returnedError, UnitTestsViewModel.DataError.itemNotFound)
+        }
+    }
+    
+    func test_saveItem_shouldSaveItem() {
+        let loopCount = Int.random(in: 1..<100)
+        
+        for _ in 0..<loopCount {
+            let newItem = UUID().uuidString
+            sut.addItem(item: newItem)
+        }
+        let randomItem = sut.dataArray.randomElement() ?? ""
+        
+        XCTAssertFalse(randomItem.isEmpty)
+        XCTAssertNoThrow(try sut.saveItem(item: randomItem))
+    }
+    
+    func test_saveItem_shouldSaveItem2() {
+        let loopCount = Int.random(in: 1..<100)
+        
+        for _ in 0..<loopCount {
+            let newItem = UUID().uuidString
+            sut.addItem(item: newItem)
+        }
+        let randomItem = sut.dataArray.randomElement() ?? ""
+        
+        XCTAssertFalse(randomItem.isEmpty)
+        do {
+            try sut.saveItem(item: randomItem)
+        } catch {
+            XCTFail()
+        }
     }
     
 }
