@@ -6,15 +6,26 @@
 //
 
 import XCTest
+@testable import XCUTests
+import Combine
 
 final class NewMockDataServiceTests: XCTestCase {
+    var cancellables = Set<AnyCancellable>()
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+    
+    func test_init_shouldSetValuesCorrectly() {
+        let items: [String]? = nil
+        let items2: [String]? = []
+        let items3: [String]? = [UUID().uuidString, UUID().uuidString]
+        
+        let dataService = NewMockDataService(items: items)
+        let dataService2 = NewMockDataService(items: items2)
+        let dataService3 = NewMockDataService(items: items3)
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        XCTAssertFalse(dataService.items.isEmpty)
+        XCTAssertTrue(dataService2.items.isEmpty)
+        XCTAssertEqual(dataService3.items.count, items3?.count)
+        
     }
 
 }
