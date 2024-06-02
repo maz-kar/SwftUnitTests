@@ -56,13 +56,8 @@ class UnitTestsViewModel: ObservableObject {
     
     func downloadCombine() {
         dataService.downloadWithCombine()
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print(error)
-                }
+            .sink { _ in
+                
             } receiveValue: { [weak self] returnedItems in
                 self?.dataArray = returnedItems
             }

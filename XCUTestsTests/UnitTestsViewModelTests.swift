@@ -199,4 +199,20 @@ final class UnitTestsViewModelTests: XCTestCase {
         XCTAssertGreaterThan(sut.dataArray.count, 0)
     }
     
+    func test_downloadCombine_shouldReturnItems() {
+        sut.downloadCombine()
+        
+        let expectation = XCTestExpectation(description: "Should return items after a second.")
+        
+        sut.$dataArray
+            .dropFirst()
+            .sink { returnedItems in
+                expectation.fulfill()
+            }
+            .store(in: &cancellables)
+        
+        XCTAssertGreaterThan(sut.dataArray.count, 0)
+    }
+
+    
 }
