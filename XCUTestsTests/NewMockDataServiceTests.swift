@@ -43,5 +43,30 @@ final class NewMockDataServiceTests: XCTestCase {
         XCTAssertEqual(dataService.items.count, items.count)
         
     }
+    
+    func test_downloadWithCombine_shouldReturnValues() {
+        let dataService = NewMockDataService(items: nil)
+        let expectation = XCTestExpectation()
+        var items: [String] = []
+        
+        
+        dataService.downloadWithCombine()
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    expectation.fulfill()
+                case .failure:
+                    XCTFail()
+                }
+            } receiveValue: { returnedItems in
+                items = returnedItems
+            }
+            .store(in: &cancellables)
+        
+        wait(for: [expectation], timeout: 5)
+        
+        XCTAssertEqual(dataService.items.count, items.count)
+        
+    }
 
 }
