@@ -16,4 +16,8 @@ class UnitTestsViewModel: ObservableObject {
     init(isPremium: Bool) {
         self.isPremium = isPremium
     }
+    
+    func addItem(item: String) {
+        self.dataArray.append(item)
+    }
 }

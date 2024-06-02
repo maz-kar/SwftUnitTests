@@ -32,12 +32,14 @@ final class UnitTestsViewModelTests: XCTestCase {
     func test_isPremium_shouldBeFalse() {
         let userIsPremium: Bool = false
         let viewModel = UnitTestsViewModel(isPremium: userIsPremium)
+        
         XCTAssertFalse(viewModel.isPremium)
     }
     
     func test_isPremium_shouldBeInjectedValue() {
         let userIsPremium: Bool = Bool.random()
         let viewModel = UnitTestsViewModel(isPremium: userIsPremium)
+        
         XCTAssertEqual(viewModel.isPremium, userIsPremium)
     }
     
@@ -45,13 +47,26 @@ final class UnitTestsViewModelTests: XCTestCase {
         for _ in 0..<10 {
             let userIsPremium: Bool = Bool.random()
             let viewModel = UnitTestsViewModel(isPremium: userIsPremium)
+            
             XCTAssertEqual(viewModel.isPremium, userIsPremium)
         }
     }
 
     func test_dataArray_shouldBeEmpty() {
         let viewModel = UnitTestsViewModel(isPremium: Bool.random())
+        
         XCTAssertTrue(viewModel.dataArray.isEmpty)
         XCTAssertEqual(viewModel.dataArray.count, 0)
     }
+    
+    func test_addItem_shouldAddItemToDataArray() {
+        let viewModel = UnitTestsViewModel(isPremium: Bool.random())
+        
+        viewModel.addItem(item: "test")
+        
+        XCTAssertTrue(!viewModel.dataArray.isEmpty)
+        XCTAssertEqual(viewModel.dataArray, ["test"])
+    }
+    
+    
 }
