@@ -120,8 +120,9 @@ final class UnitTestsViewModelTests: XCTestCase {
     
     func test_selectItem_shouldBeSelected_stress() {
         let vm = UnitTestsViewModel(isPremium: Bool.random())
+        let loopCount = Int.random(in: 1..<100)
         
-        for _ in 0..<10 {
+        for _ in 0..<loopCount {
             let newItem = UUID().uuidString
             vm.addItem(item: newItem)
         }
