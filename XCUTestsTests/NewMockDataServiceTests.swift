@@ -70,7 +70,8 @@ final class NewMockDataServiceTests: XCTestCase {
     
     func test_downloadWithCombine_shouldFail() {
         let dataService = NewMockDataService(items: [])
-        let expectation = XCTestExpectation()
+        let expectation = XCTestExpectation(description: "Does throw an error")
+        let expectation2 = XCTestExpectation(description: "Does throw URLError.badServeResponse")
         var items: [String] = []
         
         
@@ -81,15 +82,17 @@ final class NewMockDataServiceTests: XCTestCase {
                     XCTFail()
                 case .failure(let error):
                     expectation.fulfill()
-                    let returnedError = error as? URLError
-                    XCTAssertEqual(returnedError, URLError(.badServerResponse))
+                    
+                    if error as? URLError == URLError(.badServerResponse) {
+                        expectation2.fulfill()
+                    }
                 }
             } receiveValue: { returnedItems in
                 items = returnedItems
             }
             .store(in: &cancellables)
         
-        wait(for: [expectation], timeout: 5)
+        wait(for: [expectation, expectation2], timeout: 5)
         
         XCTAssertEqual(dataService.items.count, items.count)
     }
