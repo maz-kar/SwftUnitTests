@@ -11,13 +11,11 @@ import Combine
 
 protocol NewDataServiceProtocol {
     func downloadWithEscaping(completion: @escaping (_ items: [String]) -> ())
+    func downloadWithCombine() -> AnyPublisher<[String], Error>
     
 }
 
 class MockNewDataService: NewDataServiceProtocol {
-    func downloadWithEscaping(completion: @escaping ([String]) -> ()) {
-        <#code#>
-    }
     
     let items: [String]
     
@@ -25,6 +23,20 @@ class MockNewDataService: NewDataServiceProtocol {
         self.items = items ?? [
             "ONE", "TWO", "THREE"
         ]
+    }
+    
+    func downloadWithEscaping(completion: @escaping (_ items: [String]) -> ()) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            completion(self.items)
+        }
+    }
+    
+    func downloadWithCombine() -> AnyPublisher<[String], Error> {
+        Just(items)
+            .tryMap({ returnedItems in
+                <#code#>
+            })
+            .eraseToAnyPublisher()
     }
     
 }
