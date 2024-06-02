@@ -12,7 +12,6 @@ import Combine
 final class NewMockDataServiceTests: XCTestCase {
     var cancellables = Set<AnyCancellable>()
 
-    
     func test_init_shouldSetValuesCorrectly() {
         let items: [String]? = nil
         let items2: [String]? = []
@@ -25,6 +24,23 @@ final class NewMockDataServiceTests: XCTestCase {
         XCTAssertFalse(dataService.items.isEmpty)
         XCTAssertTrue(dataService2.items.isEmpty)
         XCTAssertEqual(dataService3.items.count, items3?.count)
+        
+    }
+    
+    func test_downloadWithEscaping_shouldReturnValues() {
+        let dataService = NewMockDataService(items: nil)
+        let expectation = XCTestExpectation()
+        var items: [String] = []
+        
+        
+        dataService.downloadWithEscaping { returnedItems in
+            items = returnedItems
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 5)
+        
+        XCTAssertEqual(dataService.items.count, items.count)
         
     }
 
