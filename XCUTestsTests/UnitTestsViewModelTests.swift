@@ -95,17 +95,6 @@ final class UnitTestsViewModelTests: XCTestCase {
         XCTAssertNil(vm.selectedItem)
     }
     
-    func test_selectItem_shouldBeSelected() {
-        let vm = UnitTestsViewModel(isPremium: Bool.random())
-        let newItem = UUID().uuidString
-        
-        vm.addItem(item: newItem)
-        vm.selectItem(item: newItem)
-        
-        XCTAssertNotNil(vm.selectedItem)
-        XCTAssertEqual(vm.selectedItem, newItem)
-    }
-    
     func test_selectItem_shouldBeSetAgainToNil() {
         let vm = UnitTestsViewModel(isPremium: Bool.random())
         let newItem = UUID().uuidString
@@ -117,5 +106,37 @@ final class UnitTestsViewModelTests: XCTestCase {
         
         XCTAssertNil(vm.selectedItem)
     }
+    
+    func test_selectItem_shouldBeSelected() {
+        let vm = UnitTestsViewModel(isPremium: Bool.random())
+        let newItem = UUID().uuidString
+        
+        vm.addItem(item: newItem)
+        vm.selectItem(item: newItem)
+        
+        XCTAssertNotNil(vm.selectedItem)
+        XCTAssertEqual(vm.selectedItem, newItem)
+    }
+    
+    func test_selectItem_shouldBeSelected_stress() {
+        let vm = UnitTestsViewModel(isPremium: Bool.random())
+        let loopCount: Int = Int.random(in: 1..<10)
+        
+        for _ in 0..<loopCount {
+            let newItem = UUID().uuidString
+            vm.addItem(item: newItem)
+        }
+        
+        let randomItem = vm.dataArray.randomElement() ?? ""
+        
+        vm.selectItem(item: randomItem)
+        
+        XCTAssertNotNil(vm.selectedItem)
+        XCTAssertEqual(vm.selectedItem, randomItem)
+        
+        
+    }
+    
+    
     
 }
