@@ -49,5 +49,9 @@ final class UnitTestsViewModelTests: XCTestCase {
         }
     }
 
-    
+    func test_dataArray_shouldBeEmpty() {
+        let viewModel = UnitTestsViewModel(isPremium: Bool.random())
+        XCTAssertTrue(viewModel.dataArray.isEmpty)
+        XCTAssertEqual(viewModel.dataArray.count, 0)
+    }
 }
