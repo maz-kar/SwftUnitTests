@@ -81,5 +81,30 @@ final class UnitTestsViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.dataArray, [])
     }
     
+    func test_selectedItem_shouldBeNilAtStart() {
+        let vm = UnitTestsViewModel(isPremium: Bool.random())
+        
+        XCTAssertNil(vm.selectedItem)
+    }
+    
+    func test_selectItem_whenInvalidItem_shouldBeNil() {
+        let vm = UnitTestsViewModel(isPremium: Bool.random())
+        
+        vm.selectItem(item: UUID().uuidString)
+        
+        XCTAssertNil(vm.selectedItem)
+    }
+    
+    func test_selectItem_shouldBeSelected() {
+        let vm = UnitTestsViewModel(isPremium: Bool.random())
+        let newItem = UUID().uuidString
+        
+        vm.addItem(item: newItem)
+        vm.selectItem(item: newItem)
+        
+        XCTAssertNotNil(vm.selectedItem)
+        XCTAssertEqual(vm.selectedItem, newItem)
+    }
+    
     
 }
