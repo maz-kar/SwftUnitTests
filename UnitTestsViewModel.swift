@@ -16,6 +16,8 @@ class UnitTestsViewModel: ObservableObject {
     @Published var selectedItem: String? = nil
     let dataService: NewDataServiceProtocol
     
+    var cancellables = Set<AnyCancellable>()
+    
     init(isPremium: Bool, dataService: NewDataServiceProtocol = NewMockDataService(items: nil)) {
         self.isPremium = isPremium
         self.dataService = dataService
@@ -47,13 +49,25 @@ class UnitTestsViewModel: ObservableObject {
     }
     
     func downloadEscaping() {
-        dataService.downloadWithEscaping { returnedItems in
-            self.dataArray = returnedItems
+        dataService.downloadWithEscaping { [weak self] returnedItems in
+            self?.dataArray = returnedItems
         }
     }
     
     func downloadCombine() {
-        
+        dataService.downloadWithCombine()
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print(error)
+                }
+            } receiveValue: { [weak self] returnedItems in
+                self?.dataArray = returnedItems
+            }
+            .store(in: &cancellables)
+
     }
     
     enum DataError: LocalizedError {
