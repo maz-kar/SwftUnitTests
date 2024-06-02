@@ -7,6 +7,27 @@
 
 import Foundation
 import SwiftUI
+import Combine
+
+protocol NewDataServiceProtocol {
+    func downloadWithEscaping(completion: @escaping (_ items: [String]) -> ())
+    
+}
+
+class MockNewDataService: NewDataServiceProtocol {
+    func downloadWithEscaping(completion: @escaping ([String]) -> ()) {
+        <#code#>
+    }
+    
+    let items: [String]
+    
+    init(items: [String]?) {
+        self.items = items ?? [
+            "ONE", "TWO", "THREE"
+        ]
+    }
+    
+}
 
 class UnitTestsViewModel: ObservableObject {
     
