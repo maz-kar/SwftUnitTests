@@ -81,6 +81,16 @@ class UnitTestsViewModel: ObservableObject {
         }
     }
     
+    func downloadEscaping() {
+        dataService.downloadWithEscaping { returnedItems in
+            self.dataArray = returnedItems
+        }
+    }
+    
+    func downloadCombine() {
+        
+    }
+    
     enum DataError: LocalizedError {
         case noData
         case itemNotFound
