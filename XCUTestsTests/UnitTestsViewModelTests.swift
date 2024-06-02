@@ -9,11 +9,11 @@ import XCTest
 @testable import XCUTests
 
 final class UnitTestsViewModelTests: XCTestCase {
-
+    
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-
+    
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
@@ -51,7 +51,7 @@ final class UnitTestsViewModelTests: XCTestCase {
             XCTAssertEqual(viewModel.isPremium, userIsPremium)
         }
     }
-
+    
     func test_dataArray_shouldBeEmpty() {
         let viewModel = UnitTestsViewModel(isPremium: Bool.random())
         
@@ -59,14 +59,17 @@ final class UnitTestsViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.dataArray.count, 0)
     }
     
-    func test_addItem_shouldAddItemToDataArray() {
-        let randomString = UUID().uuidString
+    func test_addItem_shouldAddItemToDataArray_stress() {
         let viewModel = UnitTestsViewModel(isPremium: Bool.random())
+        let loopCount: Int = Int.random(in: 1..<100)
+        let randomString = UUID().uuidString
         
-        viewModel.addItem(item: randomString)
+        for _ in 0..<loopCount {
+            viewModel.addItem(item: randomString)
+        }
         
         XCTAssertTrue(!viewModel.dataArray.isEmpty)
-        XCTAssertEqual(viewModel.dataArray, [randomString])
+        XCTAssertEqual(viewModel.dataArray.count, loopCount)
     }
     
     func test_addItem_shouldNotAddItemEmptyString() {
