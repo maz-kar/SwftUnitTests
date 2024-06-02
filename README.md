@@ -1,4 +1,4 @@
-# XCUTests
+# XCUnitTests
 
 ## Description
 An iOS experiment with UnitTests.
