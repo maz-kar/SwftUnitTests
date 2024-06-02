@@ -26,6 +26,9 @@ class UnitTestsViewModel: ObservableObject {
     func selectItem(item: String) {
         if let x = dataArray.first(where: { $0 == item }) {
             self.selectedItem = x
+        } else {
+            self.selectedItem = nil
         }
     }
+    
 }
