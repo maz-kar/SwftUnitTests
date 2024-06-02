@@ -7,10 +7,12 @@
 
 import XCTest
 @testable import XCUTests
+import Combine
 
 final class UnitTestsViewModelTests: XCTestCase {
     
     var sut: UnitTestsViewModel!
+    var cancellables = Set<AnyCancellable>()
     
     override func setUp() {
         sut = UnitTestsViewModel(isPremium: Bool.random())
@@ -178,6 +180,23 @@ final class UnitTestsViewModelTests: XCTestCase {
         } catch {
             XCTFail()
         }
+    }
+    
+    func test_downloadEscaping_shouldReturnItems() {
+        sut.downloadEscaping()
+        
+        let expectation = XCTestExpectation(description: "Should return items after 3 seconds.")
+        
+        sut.$dataArray
+            .dropFirst()
+            .sink { returnedItems in
+                expectation.fulfill()
+            }
+            .store(in: &cancellables)
+        
+        wait(for: [expectation], timeout: 5)
+        
+        XCTAssertGreaterThan(sut.dataArray.count, 0)
     }
     
 }
