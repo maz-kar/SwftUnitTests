@@ -27,7 +27,20 @@ final class UnitTestsViewModelTests: XCTestCase {
         
         //Then
         XCTAssertTrue(viewModel.isPremium)
-        
     }
+    
+    func test_isPremium_shouldBeFalse() {
+        let userIsPremium: Bool = false
+        let viewModel = UnitTestsViewModel(isPremium: userIsPremium)
+        XCTAssertFalse(viewModel.isPremium)
+    }
+    
+    func test_isPremium_shouldBeInjectedValue() {
+        let userIsPremium: Bool = Bool.random()
+        let viewModel = UnitTestsViewModel(isPremium: userIsPremium)
+        XCTAssertEqual(viewModel.isPremium, userIsPremium)
+    }
+    
+    
 
 }
