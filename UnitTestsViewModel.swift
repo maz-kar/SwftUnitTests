@@ -33,8 +33,11 @@ class MockNewDataService: NewDataServiceProtocol {
     
     func downloadWithCombine() -> AnyPublisher<[String], Error> {
         Just(items)
-            .tryMap({ returnedItems in
-                <#code#>
+            .tryMap({ publishedItems in
+                guard !publishedItems.isEmpty else {
+                    throw URLError(.badServerResponse)
+                }
+                return publishedItems
             })
             .eraseToAnyPublisher()
     }
