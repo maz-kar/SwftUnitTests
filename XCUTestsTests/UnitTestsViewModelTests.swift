@@ -60,12 +60,22 @@ final class UnitTestsViewModelTests: XCTestCase {
     }
     
     func test_addItem_shouldAddItemToDataArray() {
+        let randomString = UUID().uuidString
         let viewModel = UnitTestsViewModel(isPremium: Bool.random())
         
-        viewModel.addItem(item: "test")
+        viewModel.addItem(item: randomString)
         
         XCTAssertTrue(!viewModel.dataArray.isEmpty)
-        XCTAssertEqual(viewModel.dataArray, ["test"])
+        XCTAssertEqual(viewModel.dataArray, [randomString])
+    }
+    
+    func test_addItem_shouldNotAddItemEmptyString() {
+        let viewModel = UnitTestsViewModel(isPremium: Bool.random())
+        
+        viewModel.addItem(item: "")
+        
+        XCTAssertTrue(viewModel.dataArray.isEmpty)
+        XCTAssertEqual(viewModel.dataArray, [])
     }
     
     

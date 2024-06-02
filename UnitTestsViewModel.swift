@@ -18,6 +18,7 @@ class UnitTestsViewModel: ObservableObject {
     }
     
     func addItem(item: String) {
+        guard !item.isEmpty else { return }
         self.dataArray.append(item)
     }
 }
