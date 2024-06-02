@@ -120,23 +120,16 @@ final class UnitTestsViewModelTests: XCTestCase {
     
     func test_selectItem_shouldBeSelected_stress() {
         let vm = UnitTestsViewModel(isPremium: Bool.random())
-        let loopCount: Int = Int.random(in: 1..<10)
         
-        for _ in 0..<loopCount {
+        for _ in 0..<10 {
             let newItem = UUID().uuidString
             vm.addItem(item: newItem)
         }
-        
         let randomItem = vm.dataArray.randomElement() ?? ""
-        
         vm.selectItem(item: randomItem)
         
         XCTAssertNotNil(vm.selectedItem)
         XCTAssertEqual(vm.selectedItem, randomItem)
-        
-        
     }
-    
-    
     
 }
