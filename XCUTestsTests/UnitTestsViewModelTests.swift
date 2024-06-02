@@ -21,32 +21,32 @@ final class UnitTestsViewModelTests: XCTestCase {
         let userIsPremium: Bool = true
         
         //When
-        let viewModel = UnitTestsViewModel(isPremium: userIsPremium)
+        sut.isPremium = userIsPremium
         
         //Then
-        XCTAssertTrue(viewModel.isPremium)
+        XCTAssertTrue(sut.isPremium)
     }
     
     func test_isPremium_shouldBeFalse() {
         let userIsPremium: Bool = false
-        let viewModel = UnitTestsViewModel(isPremium: userIsPremium)
+        sut.isPremium = userIsPremium
         
-        XCTAssertFalse(viewModel.isPremium)
+        XCTAssertFalse(sut.isPremium)
     }
     
     func test_isPremium_shouldBeInjectedValue() {
         let userIsPremium: Bool = Bool.random()
-        let viewModel = UnitTestsViewModel(isPremium: userIsPremium)
+        sut.isPremium = userIsPremium
         
-        XCTAssertEqual(viewModel.isPremium, userIsPremium)
+        XCTAssertEqual(sut.isPremium, userIsPremium)
     }
     
     func test_isPremium_shouldBeInjectedValue_stress() {
         for _ in 0..<10 {
             let userIsPremium: Bool = Bool.random()
-            let viewModel = UnitTestsViewModel(isPremium: userIsPremium)
+            sut.isPremium = userIsPremium
             
-            XCTAssertEqual(viewModel.isPremium, userIsPremium)
+            XCTAssertEqual(sut.isPremium, userIsPremium)
         }
     }
     
