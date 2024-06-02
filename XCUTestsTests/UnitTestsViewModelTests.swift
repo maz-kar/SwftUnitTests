@@ -10,12 +10,10 @@ import XCTest
 
 final class UnitTestsViewModelTests: XCTestCase {
     
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+    var sut: UnitTestsViewModel!
     
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    override func setUp() {
+        sut = UnitTestsViewModel(isPremium: Bool.random())
     }
     
     func test_isPremium_shouldBeTrue() {
@@ -53,84 +51,76 @@ final class UnitTestsViewModelTests: XCTestCase {
     }
     
     func test_dataArray_shouldBeEmpty() {
-        let viewModel = UnitTestsViewModel(isPremium: Bool.random())
-        
-        XCTAssertTrue(viewModel.dataArray.isEmpty)
-        XCTAssertEqual(viewModel.dataArray.count, 0)
+        XCTAssertTrue(sut.dataArray.isEmpty)
+        XCTAssertEqual(sut.dataArray.count, 0)
     }
     
     func test_addItem_shouldAddItemToDataArray_stress() {
-        let viewModel = UnitTestsViewModel(isPremium: Bool.random())
         let loopCount: Int = Int.random(in: 1..<100)
         let randomString = UUID().uuidString
         
         for _ in 0..<loopCount {
-            viewModel.addItem(item: randomString)
+            sut.addItem(item: randomString)
         }
         
-        XCTAssertTrue(!viewModel.dataArray.isEmpty)
-        XCTAssertEqual(viewModel.dataArray.count, loopCount)
+        XCTAssertTrue(!sut.dataArray.isEmpty)
+        XCTAssertEqual(sut.dataArray.count, loopCount)
     }
     
     func test_addItem_shouldNotAddItemEmptyString() {
-        let viewModel = UnitTestsViewModel(isPremium: Bool.random())
+        sut.addItem(item: "")
         
-        viewModel.addItem(item: "")
-        
-        XCTAssertTrue(viewModel.dataArray.isEmpty)
-        XCTAssertEqual(viewModel.dataArray, [])
+        XCTAssertTrue(sut.dataArray.isEmpty)
+        XCTAssertEqual(sut.dataArray, [])
     }
     
     func test_selectedItem_shouldBeNilAtStart() {
-        let vm = UnitTestsViewModel(isPremium: Bool.random())
-        
-        XCTAssertNil(vm.selectedItem)
+        XCTAssertNil(sut.selectedItem)
     }
     
     func test_selectItem_whenInvalidItem_shouldBeNil() {
-        let vm = UnitTestsViewModel(isPremium: Bool.random())
+        sut.selectItem(item: UUID().uuidString)
         
-        vm.selectItem(item: UUID().uuidString)
-        
-        XCTAssertNil(vm.selectedItem)
+        XCTAssertNil(sut.selectedItem)
     }
     
     func test_selectItem_shouldBeSetAgainToNil() {
-        let vm = UnitTestsViewModel(isPremium: Bool.random())
         let newItem = UUID().uuidString
         
-        vm.addItem(item: newItem)
-        vm.selectItem(item: newItem)
+        sut.addItem(item: newItem)
+        sut.selectItem(item: newItem)
         
-        vm.selectItem(item: UUID().uuidString)
+        sut.selectItem(item: UUID().uuidString)
         
-        XCTAssertNil(vm.selectedItem)
+        XCTAssertNil(sut.selectedItem)
     }
     
     func test_selectItem_shouldBeSelected() {
-        let vm = UnitTestsViewModel(isPremium: Bool.random())
         let newItem = UUID().uuidString
         
-        vm.addItem(item: newItem)
-        vm.selectItem(item: newItem)
+        sut.addItem(item: newItem)
+        sut.selectItem(item: newItem)
         
-        XCTAssertNotNil(vm.selectedItem)
-        XCTAssertEqual(vm.selectedItem, newItem)
+        XCTAssertNotNil(sut.selectedItem)
+        XCTAssertEqual(sut.selectedItem, newItem)
     }
     
     func test_selectItem_shouldBeSelected_stress() {
-        let vm = UnitTestsViewModel(isPremium: Bool.random())
         let loopCount = Int.random(in: 1..<100)
         
         for _ in 0..<loopCount {
             let newItem = UUID().uuidString
-            vm.addItem(item: newItem)
+            sut.addItem(item: newItem)
         }
-        let randomItem = vm.dataArray.randomElement() ?? ""
-        vm.selectItem(item: randomItem)
+        let randomItem = sut.dataArray.randomElement() ?? ""
+        sut.selectItem(item: randomItem)
         
-        XCTAssertNotNil(vm.selectedItem)
-        XCTAssertEqual(vm.selectedItem, randomItem)
+        XCTAssertNotNil(sut.selectedItem)
+        XCTAssertEqual(sut.selectedItem, randomItem)
+    }
+    
+    func test_saveItem_whenEmptyString_shouldThrowError() {
+        
     }
     
 }
