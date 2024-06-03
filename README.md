@@ -12,10 +12,10 @@ Swift - XCTest - Combine -
 - Start each test func with test keyword.
 - Import app target inside of test file using @testable import app name
 
-###Naming Convention:
+##Naming Convention:
 - test_UnitOfWork_StateUnderTest_ExpectedBehavior
 
-###Testing Convention:
+##Testing Convention:
 - Given, When, Then
 
  
