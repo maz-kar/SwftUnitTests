@@ -214,5 +214,6 @@ final class UnitTestsViewModelTests: XCTestCase {
         XCTAssertGreaterThan(sut.dataArray.count, 0)
     }
 
-    
 }
+
+//TODO: test_addItem_shouldAddItemToDataArray_stress2

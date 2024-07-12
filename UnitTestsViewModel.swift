@@ -62,7 +62,6 @@ class UnitTestsViewModel: ObservableObject {
                 self?.dataArray = returnedItems
             }
             .store(in: &cancellables)
-
     }
     
     enum DataError: LocalizedError {

@@ -12,7 +12,6 @@ import Combine
 protocol NewDataServiceProtocol {
     func downloadWithEscaping(completion: @escaping (_ items: [String]) -> ())
     func downloadWithCombine() -> AnyPublisher<[String], Error>
-    
 }
 
 class NewMockDataService: NewDataServiceProtocol {
