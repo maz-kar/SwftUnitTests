@@ -226,7 +226,6 @@ final class UnitTestsViewModelTests: XCTestCase {
         XCTAssertNil(sut.selectedItem)
     }
     
-    //TODO: Fix this
     func test_selectedItem_givenAMatch_shouldSetSelectedItemToTheMatch() {
         let userInput = "something"
         sut.dataArray = [userInput]

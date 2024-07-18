@@ -18,4 +18,9 @@ Swift - XCTest - Combine -
 ### Testing Convention:
 - Given, When, Then
 
+## TODO
+on 19.07: 
+- fix this test: test_selectedItem_givenAMatch_shouldSetSelectedItemToTheMatch
+- write test for saveItem
+
  
