@@ -213,7 +213,26 @@ final class UnitTestsViewModelTests: XCTestCase {
         
         XCTAssertGreaterThan(sut.dataArray.count, 0)
     }
+    
+    func test_selectedItem_givenInitialized_shouldBeNil() {
+        XCTAssertNil(sut.selectedItem)
+    }
+    
+    func test_selectedItem_givenNoMatch_shouldSelectedItemRemainNil() {
+        let userInput = "something"
+        sut.dataArray = ["somethingElse"]
+        
+        sut.selectItem(item: userInput)
+        XCTAssertNil(sut.selectedItem)
+    }
+    
+    //TODO: Fix this
+    func test_selectedItem_givenAMatch_shouldSetSelectedItemToTheMatch() {
+        let userInput = "something"
+        sut.dataArray = [userInput]
+        
+//        XCTAssertEqual(sut.selectedItem, userInput)
+//        XCTAssertNotNil(sut.selectedItem)
+    }
 
 }
-
-//TODO: test_addItem_shouldAddItemToDataArray_stress2
