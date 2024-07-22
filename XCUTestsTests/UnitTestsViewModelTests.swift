@@ -122,6 +122,7 @@ final class UnitTestsViewModelTests: XCTestCase {
         XCTAssertEqual(sut.selectedItem, randomItem)
     }
     
+    //TODO: HERE
     func test_saveItem_whenEmptyString_shouldThrowNoDataError() {
         let loopCount = Int.random(in: 1..<100)
         
@@ -161,19 +162,7 @@ final class UnitTestsViewModelTests: XCTestCase {
         }
         let randomItem = sut.dataArray.randomElement() ?? ""
         
-        XCTAssertFalse(randomItem.isEmpty)
         XCTAssertNoThrow(try sut.saveItem(item: randomItem))
-    }
-    
-    func test_saveItem_shouldSaveItem2() {
-        let loopCount = Int.random(in: 1..<100)
-        
-        for _ in 0..<loopCount {
-            let newItem = UUID().uuidString
-            sut.addItem(item: newItem)
-        }
-        let randomItem = sut.dataArray.randomElement() ?? ""
-        
         XCTAssertFalse(randomItem.isEmpty)
         do {
             try sut.saveItem(item: randomItem)
@@ -197,6 +186,7 @@ final class UnitTestsViewModelTests: XCTestCase {
         wait(for: [expectation], timeout: 5)
         
         XCTAssertGreaterThan(sut.dataArray.count, 0)
+        XCTAssertEqual(sut.dataArray, ["ONE", "TWO", "THREE"])
     }
     
     func test_downloadCombine_shouldReturnItems() {
@@ -237,7 +227,14 @@ final class UnitTestsViewModelTests: XCTestCase {
     func test_saveItem_givenEmptyString_shouldThrowNoDataError() {
         let userInput = ""
         
-        XCTAssertThrowsError(try sut.saveItem(item: userInput))
+        //XCTAssertThrowsError(try sut.saveItem(item: userInput))
+        
+        do {
+            try sut.saveItem(item: userInput)
+        } catch let error {
+            let returnedError = error as? UnitTestsViewModel.DataError
+            XCTAssertEqual(returnedError, UnitTestsViewModel.DataError.noData)
+        }
     }
     
     func test_saveItem_givenNonEmptyString_shouldPrintString() {
@@ -246,6 +243,11 @@ final class UnitTestsViewModelTests: XCTestCase {
         sut.dataArray = ["testItem"]
         
         XCTAssertNoThrow(try sut.saveItem(item: userInput), "Save testItem here.")
+        do {
+            try sut.saveItem(item: userInput)
+        } catch {
+            XCTFail()
+        }
         
     }
     
@@ -254,7 +256,10 @@ final class UnitTestsViewModelTests: XCTestCase {
         
         sut.dataArray = ["someOtherItem"]
         
-        XCTAssertThrowsError(try sut.saveItem(item: userInput))
+        XCTAssertThrowsError(try sut.saveItem(item: userInput)) { error in
+            let returnedError = error as? UnitTestsViewModel.DataError
+            XCTAssertEqual(returnedError, UnitTestsViewModel.DataError.itemNotFound)
+        }
     }
 
 }

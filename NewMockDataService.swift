@@ -19,9 +19,7 @@ class NewMockDataService: NewDataServiceProtocol {
     let items: [String]
     
     init(items: [String]?) {
-        self.items = items ?? [
-            "ONE", "TWO", "THREE"
-        ]
+        self.items = items ?? [ "ONE", "TWO", "THREE" ]
     }
     
     func downloadWithEscaping(completion: @escaping (_ items: [String]) -> ()) {

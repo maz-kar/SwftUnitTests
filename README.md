@@ -21,5 +21,6 @@ Swift - XCTest - Combine -
 ## TODO
 on 23.07: 
 - Compare my tests with the templates and keep the better ones.
+- write tests for downloadingEscaping and downloadCombine
 
  
