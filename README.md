@@ -19,8 +19,7 @@ Swift - XCTest - Combine -
 - Given, When, Then
 
 ## TODO
-on 19.07: 
-- write test for saveItem
+on 23.07: 
 - Compare my tests with the templates and keep the better ones.
 
  

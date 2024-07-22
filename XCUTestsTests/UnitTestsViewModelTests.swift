@@ -214,6 +214,7 @@ final class UnitTestsViewModelTests: XCTestCase {
         XCTAssertGreaterThan(sut.dataArray.count, 0)
     }
     
+    //TODO: CHECK from here to keep it or not.
     func test_selectItem_givenInitialized_shouldBeNil() {
         XCTAssertNil(sut.selectedItem)
     }
@@ -231,6 +232,29 @@ final class UnitTestsViewModelTests: XCTestCase {
         sut.selectItem(item: "something")
         
         XCTAssertEqual(sut.selectedItem, "something")
+    }
+    
+    func test_saveItem_givenEmptyString_shouldThrowNoDataError() {
+        let userInput = ""
+        
+        XCTAssertThrowsError(try sut.saveItem(item: userInput))
+    }
+    
+    func test_saveItem_givenNonEmptyString_shouldPrintString() {
+        let userInput = "testItem"
+        
+        sut.dataArray = ["testItem"]
+        
+        XCTAssertNoThrow(try sut.saveItem(item: userInput), "Save testItem here.")
+        
+    }
+    
+    func test_saveItem_givenNoMatchItem_shouldThrowItemNotFoundError() {
+        let userInput = "testItem"
+        
+        sut.dataArray = ["someOtherItem"]
+        
+        XCTAssertThrowsError(try sut.saveItem(item: userInput))
     }
 
 }
