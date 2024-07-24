@@ -24,4 +24,7 @@ on 25.07:
 - Write tests for downloadCombine
 - Write tests for NewMockDataService class
 
+## Research
+on 25.07: 
+- Research: Why dropFirst in tests?
  
