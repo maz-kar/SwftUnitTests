@@ -19,8 +19,9 @@ Swift - XCTest - Combine -
 - Given, When, Then
 
 ## TODO
-on 23.07: 
+on 25.07: 
 - Compare my tests with the templates and keep the better ones.
-- write tests for downloadingEscaping and downloadCombine
+- Write tests for downloadCombine
+- Write tests for NewMockDataService class
 
  

@@ -183,7 +183,7 @@ final class UnitTestsViewModelTests: XCTestCase {
             }
             .store(in: &cancellables)
         
-        wait(for: [expectation], timeout: 5)
+        wait(for: [expectation], timeout: 3)
         
         XCTAssertGreaterThan(sut.dataArray.count, 0)
         XCTAssertEqual(sut.dataArray, ["ONE", "TWO", "THREE"])
@@ -261,5 +261,30 @@ final class UnitTestsViewModelTests: XCTestCase {
             XCTAssertEqual(returnedError, UnitTestsViewModel.DataError.itemNotFound)
         }
     }
+    
+    func test_downloadEscaping_givenNo3SecsWait_shouldReturnEmptyDataArray() {
+        sut.downloadEscaping()
+        XCTAssertEqual(sut.dataArray, [])
+    }
+    
+    func test_downloadEscaping_given3SecsWait_shouldSetDataArray() {
+        sut.downloadEscaping()
+        
+        let expecation = XCTestExpectation(description: "should return items after 3 seconds")
+        
+        sut.$dataArray
+            .dropFirst()
+            .sink { returnedItems in
+                expecation.fulfill()
+            }
+            .store(in: &cancellables)
+        
+        wait(for: [expecation], timeout: 3.0)
+        
+        XCTAssertGreaterThan(sut.dataArray.count, 0)
+        XCTAssertEqual(sut.dataArray, ["ONE","TWO","THREE"])
+    }
+    
+    
 
 }
