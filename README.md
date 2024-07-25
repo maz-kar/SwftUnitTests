@@ -27,4 +27,5 @@ on 25.07:
 ## Research
 on 25.07: 
 - Research: Why dropFirst in tests?
+- Delete the redundant tests in ViewModel
  

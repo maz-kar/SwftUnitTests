@@ -272,8 +272,8 @@ final class UnitTestsViewModelTests: XCTestCase {
         
         let expecation = XCTestExpectation(description: "should return items after 3 seconds")
         
-        sut.$dataArray
-            .dropFirst()
+        sut.$dataArray //Here we are observing the dataArray, anytime that items will be published to that dataArray, we call sink.
+            .dropFirst() //We use this in order to omit the very first emit which is []
             .sink { returnedItems in
                 expecation.fulfill()
             }
