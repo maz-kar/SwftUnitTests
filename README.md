@@ -19,13 +19,9 @@ Swift - XCTest - Combine -
 - Given, When, Then
 
 ## TODO
-on 25.07: 
-- Compare my tests with the templates and keep the better ones.
-- Write tests for downloadCombine
-- Write tests for NewMockDataService class
+on 26.07: 
+- Rewrite all the tests of the ViewModel and DataService
+- Find and Add new tests
+- Why using Just?
 
-## Research
-on 25.07: 
-- Research: Why dropFirst in tests?
-- Delete the redundant tests in ViewModel
  

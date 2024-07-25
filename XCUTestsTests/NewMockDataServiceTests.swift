@@ -76,7 +76,7 @@ final class NewMockDataServiceTests: XCTestCase {
             }
             .store(in: &cancellables)
         
-        wait(for: [expectation], timeout: 5)
+        wait(for: [expectation], timeout: 3)
         
         XCTAssertEqual(dataService.items.count, items.count)
     }
@@ -105,7 +105,7 @@ final class NewMockDataServiceTests: XCTestCase {
             }
             .store(in: &cancellables)
         
-        wait(for: [expectation, expectation2], timeout: 5)
+        wait(for: [expectation, expectation2], timeout: 3)
         
         XCTAssertEqual(dataService.items.count, items.count)
     }
