@@ -10,6 +10,7 @@ import XCTest
 import Combine
 
 final class NewMockDataServiceTests: XCTestCase {
+    var sut: NewMockDataService!
     var cancellables = Set<AnyCancellable>()
     
     func test_init_shouldSetValuesCorrectly() {
@@ -24,7 +25,6 @@ final class NewMockDataServiceTests: XCTestCase {
         XCTAssertFalse(dataService.items.isEmpty)
         XCTAssertTrue(dataService2.items.isEmpty)
         XCTAssertEqual(dataService3.items.count, items3?.count)
-        
     }
     
     func test_downloadWithEscaping_shouldReturnValues() {
@@ -32,16 +32,29 @@ final class NewMockDataServiceTests: XCTestCase {
         let expectation = XCTestExpectation()
         var items: [String] = []
         
-        
         dataService.downloadWithEscaping { returnedItems in
             items = returnedItems
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 5)
+        wait(for: [expectation], timeout: 3)
         
         XCTAssertEqual(dataService.items.count, items.count)
+    }
+    
+    func test_downloadWithEscaping_givenNonNilItemInInit_shouldReturnItems() {
+        let expectation = XCTestExpectation()
+        let newMockDataService = NewMockDataService(items: [UUID().uuidString])
+        var items: [String] = []
         
+        newMockDataService.downloadWithEscaping { returnedItems in
+            items = returnedItems
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 3)
+        
+        XCTAssertEqual(items.count, 1)
     }
     
     func test_downloadWithCombine_shouldReturnValues() {
@@ -96,5 +109,4 @@ final class NewMockDataServiceTests: XCTestCase {
         
         XCTAssertEqual(dataService.items.count, items.count)
     }
-    
 }
