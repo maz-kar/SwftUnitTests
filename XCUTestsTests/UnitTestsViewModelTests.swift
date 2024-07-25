@@ -285,7 +285,7 @@ final class UnitTestsViewModelTests: XCTestCase {
         XCTAssertEqual(sut.dataArray, ["ONE","TWO","THREE"])
     }
     
-    func test_downloadCombine_given_should() {
+    func test_downloadCombine_givenReturnedItems_shouldSetDataArray() {
         sut.downloadCombine()
         
         let expectation = XCTestExpectation(description: "should return items after a second")
