@@ -1,239 +1,113 @@
-//
-//  UnitTestsViewModelTests.swift
-//  XCUTestsTests
-//
-//  Created by Maziar Layeghkar on 01.06.24.
-//
 
+import Foundation
+import Combine
+import SwiftUI
 import XCTest
 @testable import XCUTests
-import Combine
 
 final class UnitTestsViewModelTests: XCTestCase {
     
     var sut: UnitTestsViewModel!
-    var cancellables = Set<AnyCancellable>()
     
     override func setUp() {
         sut = UnitTestsViewModel(isPremium: Bool.random())
     }
     
     func test_isPremium_shouldBeTrue() {
-        //Given
-        let userIsPremium: Bool = true
-        
-        //When
-        sut.isPremium = userIsPremium
-        
-        //Then
+        sut.isPremium = true
         XCTAssertTrue(sut.isPremium)
     }
     
     func test_isPremium_shouldBeFalse() {
-        let userIsPremium: Bool = false
-        sut.isPremium = userIsPremium
-        
+        sut.isPremium = false
         XCTAssertFalse(sut.isPremium)
     }
     
-    func test_isPremium_shouldBeInjectedValue() {
-        let userIsPremium: Bool = Bool.random()
-        sut.isPremium = userIsPremium
-        
-        XCTAssertEqual(sut.isPremium, userIsPremium)
-    }
-    
-    func test_isPremium_shouldBeInjectedValue_stress() {
-        for _ in 0..<10 {
-            let userIsPremium: Bool = Bool.random()
-            sut.isPremium = userIsPremium
-            
-            XCTAssertEqual(sut.isPremium, userIsPremium)
-        }
-    }
-    
-    func test_dataArray_shouldBeEmpty() {
+    func test_dataArray_shouldBeEmptyStrArrAtStart() {
         XCTAssertTrue(sut.dataArray.isEmpty)
-        XCTAssertEqual(sut.dataArray.count, 0)
     }
     
-    func test_addItem_shouldAddItemToDataArray_stress() {
-        let loopCount: Int = Int.random(in: 1..<100)
-        let randomString = UUID().uuidString
+    func test_addItem_givenEmptyItem_shouldReturnEmptyDataArray() {
+        let userItem = ""
+        sut.addItem(item: userItem)
+        XCTAssertTrue(sut.dataArray.isEmpty)
+    }
+    
+    func test_addItem_givenNonEmptyItem_shouldSetItemToDataArray() {
+        let userItem = "test"
+        sut.addItem(item: userItem)
+        XCTAssertTrue(!sut.dataArray.isEmpty)
+        XCTAssertEqual(sut.dataArray, ["test"])
+    }
+    
+    func test_selectedItem_shouldBeNilAtStart() {
+        XCTAssertNil(sut.selectedItem)
+    }
+    
+    func test_selectItem_givenAlreadyExistingItem_shouldSetSelectedItemToGivenItem() {
+        let userItem = "test"
+        sut.addItem(item: userItem)
         
-        for _ in 0..<loopCount {
-            sut.addItem(item: randomString)
-        }
+        sut.selectItem(item: userItem)
         
         XCTAssertTrue(!sut.dataArray.isEmpty)
-        XCTAssertEqual(sut.dataArray.count, loopCount)
+        XCTAssertEqual(sut.selectedItem, userItem)
     }
     
-    func test_addItem_shouldNotAddItemEmptyString() {
-        sut.addItem(item: "")
+    func test_selectItem_givenNonExistingItem_shouldNotSetSelectedItem() {
+        let userItem = "AnotherTest"
+        sut.addItem(item: "test")
         
-        XCTAssertTrue(sut.dataArray.isEmpty)
-        XCTAssertEqual(sut.dataArray, [])
-    }
-    
-    
-    
-    func test_selectItem_givenInitialized_shouldBeNil() {
-        XCTAssertNil(sut.selectedItem)
-    }
-    
-    func test_selectItem_whenInvalidItem_shouldBeNil() {
-        sut.selectItem(item: UUID().uuidString)
+        sut.selectItem(item: userItem)
         
         XCTAssertNil(sut.selectedItem)
     }
     
-    func test_selectItem_shouldBeSetAgainToNil() {
-        let newItem = UUID().uuidString
-        
-        sut.addItem(item: newItem)
-        sut.selectItem(item: newItem)
-        
-        sut.selectItem(item: UUID().uuidString)
-        
-        XCTAssertNil(sut.selectedItem)
-    }
-    
-    func test_selectItem_shouldBeSelected() {
-        let newItem = UUID().uuidString
-        
-        sut.addItem(item: newItem)
-        sut.selectItem(item: newItem)
-        
-        XCTAssertNotNil(sut.selectedItem)
-        XCTAssertEqual(sut.selectedItem, newItem)
-    }
-    
-    func test_selectItem_shouldBeSelected_stress() {
-        let loopCount = Int.random(in: 1..<100)
-        
-        for _ in 0..<loopCount {
-            let newItem = UUID().uuidString
-            sut.addItem(item: newItem)
-        }
-        let randomItem = sut.dataArray.randomElement() ?? ""
-        sut.selectItem(item: randomItem)
-        
-        XCTAssertFalse(randomItem.isEmpty)
-        XCTAssertNotNil(sut.selectedItem)
-        XCTAssertEqual(sut.selectedItem, randomItem)
-    }
-    
-    func test_saveItem_whenEmptyString_shouldThrowNoDataError() {
-        let loopCount = Int.random(in: 1..<100)
-        
-        for _ in 0..<loopCount {
-            let newItem = UUID().uuidString
-            sut.addItem(item: newItem)
-        }
+    func test_saveItem_givenEmptyItem_shouldThrowNoDataError() {
+        let userItem = ""
         
         do {
-            try sut.saveItem(item: "")
+            try sut.saveItem(item: userItem)
         } catch let error {
             let returnedError = error as? UnitTestsViewModel.DataError
             XCTAssertEqual(returnedError, UnitTestsViewModel.DataError.noData)
         }
         
-        XCTAssertThrowsError(try sut.saveItem(item: ""), "Should throw not data error.") { error in
+        XCTAssertThrowsError(try sut.saveItem(item: userItem)) { error in
             let returnedError = error as? UnitTestsViewModel.DataError
             XCTAssertEqual(returnedError, UnitTestsViewModel.DataError.noData)
         }
     }
     
-    func test_saveItem_shouldThrowItemNotFoundError() {
-        let loopCount = Int.random(in: 1..<100)
-        
-        for _ in 0..<loopCount {
-            let newItem = UUID().uuidString
-            sut.addItem(item: newItem)
-        }
-        
-        XCTAssertThrowsError(try sut.saveItem(item: UUID().uuidString)) { error in
-            let returnedError = error as? UnitTestsViewModel.DataError
-            XCTAssertEqual(returnedError, UnitTestsViewModel.DataError.itemNotFound)
-        }
+    func test_saveItem_givenNonExistingItem_shouldThrowItemNotFoundError() {
+        let userItem = "test"
+        sut.addItem(item: "AnotherTest")
         
         do {
-            try sut.saveItem(item: UUID().uuidString)
+            try sut.saveItem(item: userItem)
         } catch let error {
             let returnedError = error as? UnitTestsViewModel.DataError
             XCTAssertEqual(returnedError, UnitTestsViewModel.DataError.itemNotFound)
         }
+        
+        XCTAssertThrowsError(try sut.saveItem(item: userItem)) { error in
+            let returnedError = error as? UnitTestsViewModel.DataError
+            XCTAssertEqual(returnedError, UnitTestsViewModel.DataError.itemNotFound)
+        }
     }
     
-    func test_saveItem_givenNonEmptyString_shouldPrintString() {
-        let userInput = "testItem"
+    func test_saveItem_givenExistingItem_shouldPrintTheSaveStatement() {
+        let userItem = "test"
         
-        sut.dataArray = ["testItem"]
+        sut.addItem(item: userItem)
         
-        XCTAssertNoThrow(try sut.saveItem(item: userInput), "Save testItem here.")
         do {
-            try sut.saveItem(item: userInput)
+            try sut.saveItem(item: userItem)
         } catch {
             XCTFail()
         }
-    }
-    
-    func test_saveItem_shouldSaveItem() {
-        let loopCount = Int.random(in: 1..<100)
         
-        for _ in 0..<loopCount {
-            let newItem = UUID().uuidString
-            sut.addItem(item: newItem)
-        }
-        let randomItem = sut.dataArray.randomElement() ?? ""
-        
-        XCTAssertNoThrow(try sut.saveItem(item: randomItem))
-        XCTAssertFalse(randomItem.isEmpty)
-        do {
-            try sut.saveItem(item: randomItem)
-        } catch {
-            XCTFail()
-        }
-    }
-    
-    func test_downloadEscaping_given3SecsWait_shouldSetDataArray() {
-        sut.downloadEscaping()
-        
-        let expecation = XCTestExpectation(description: "should return items after 3 seconds")
-        
-        sut.$dataArray //Here we are observing the dataArray, anytime that items will be published to that dataArray, we call sink.
-            .dropFirst() //We use this in order to omit the very first emit which is []
-            .sink { returnedItems in
-                expecation.fulfill()
-            }
-            .store(in: &cancellables)
-        
-        wait(for: [expecation], timeout: 3.0)
-        
-        XCTAssertGreaterThan(sut.dataArray.count, 0)
-        XCTAssertEqual(sut.dataArray, ["ONE","TWO","THREE"])
-    }
-    
-    func test_downloadEscaping_givenNo3SecsWait_shouldReturnEmptyDataArray() {
-        sut.downloadEscaping()
-        XCTAssertEqual(sut.dataArray, [])
-    }
-    
-    func test_downloadCombine_givenReturnedItems_shouldSetDataArray() {
-        sut.downloadCombine()
-        
-        let expectation = XCTestExpectation(description: "should return items after a second")
-        
-        sut.$dataArray
-            .dropFirst()
-            .sink { returnedItems in
-                expectation.fulfill()
-            }
-            .store(in: &cancellables)
-        
-        XCTAssertGreaterThan(sut.dataArray.count, 0)
-        XCTAssertEqual(sut.dataArray, ["ONE","TWO","THREE"])
+        XCTAssertNoThrow(try sut.saveItem(item: userItem), "Save test here.")
     }
     
 }

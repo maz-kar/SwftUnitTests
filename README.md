@@ -19,7 +19,7 @@ Swift - XCTest - Combine -
 - Given, When, Then
 
 ## TODO
-on 26.07: 
+on 05.09: 
 - Rewrite all the tests of the ViewModel and DataService
 - Find and Add new tests
 - Why using Just?
