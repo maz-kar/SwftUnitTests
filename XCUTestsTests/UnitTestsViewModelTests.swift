@@ -66,12 +66,12 @@ final class UnitTestsViewModelTests: XCTestCase {
     func test_saveItem_givenEmptyItem_shouldThrowNoDataError() {
         let userItem = ""
         
-        do {
-            try sut.saveItem(item: userItem)
-        } catch let error {
-            let returnedError = error as? UnitTestsViewModel.DataError
-            XCTAssertEqual(returnedError, UnitTestsViewModel.DataError.noData)
-        }
+//        do {
+//            try sut.saveItem(item: userItem)
+//        } catch let error {
+//            let returnedError = error as? UnitTestsViewModel.DataError
+//            XCTAssertEqual(returnedError, UnitTestsViewModel.DataError.noData)
+//        }
         
         XCTAssertThrowsError(try sut.saveItem(item: userItem)) { error in
             let returnedError = error as? UnitTestsViewModel.DataError
@@ -83,12 +83,12 @@ final class UnitTestsViewModelTests: XCTestCase {
         let userItem = "test"
         sut.addItem(item: "AnotherTest")
         
-        do {
-            try sut.saveItem(item: userItem)
-        } catch let error {
-            let returnedError = error as? UnitTestsViewModel.DataError
-            XCTAssertEqual(returnedError, UnitTestsViewModel.DataError.itemNotFound)
-        }
+//        do {
+//            try sut.saveItem(item: userItem)
+//        } catch let error {
+//            let returnedError = error as? UnitTestsViewModel.DataError
+//            XCTAssertEqual(returnedError, UnitTestsViewModel.DataError.itemNotFound)
+//        }
         
         XCTAssertThrowsError(try sut.saveItem(item: userItem)) { error in
             let returnedError = error as? UnitTestsViewModel.DataError
@@ -101,11 +101,11 @@ final class UnitTestsViewModelTests: XCTestCase {
         
         sut.addItem(item: userItem)
         
-        do {
-            try sut.saveItem(item: userItem)
-        } catch {
-            XCTFail()
-        }
+//        do {
+//            try sut.saveItem(item: userItem)
+//        } catch {
+//            XCTFail()
+//        }
         
         XCTAssertNoThrow(try sut.saveItem(item: userItem), "Save test here.")
     }
